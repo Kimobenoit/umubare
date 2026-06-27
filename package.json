@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "start": "node server/index.js",
+    "start": "node server/src/index.js",
     "preview": "vite preview",
     "check": "node --check assets/js/main.js && node --check assets/js/expenses.js && node --check assets/js/savedData.js && node --check assets/js/formChecks.js && node --check assets/js/searchTools.js && node --check assets/js/budget.js && node --check assets/js/schedule.js && node --check assets/js/debt.js && node --check assets/js/utils.js",
     "cap:sync": "npx cap sync ios",
