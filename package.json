@@ -1,0 +1,26 @@
+{
+  "name": "student-budget-tracker",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "node --check assets/js/main.js && node --check assets/js/expenses.js && node --check assets/js/savedData.js && node --check assets/js/formChecks.js && node --check assets/js/searchTools.js && node --check assets/js/budget.js && node --check assets/js/schedule.js && node --check assets/js/debt.js && node --check assets/js/utils.js",
+    "cap:sync": "npx cap sync ios",
+    "cap:open": "npx cap open ios",
+    "ios": "npm run build && npx cap sync ios && npx cap open ios"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.2.0",
+    "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "@capacitor/core": "^7.2.0",
+    "@capacitor/ios": "^7.2.0",
+    "@prisma/client": "^7.8.0",
+    "dotenv": "^17.4.2",
+    "prisma": "^7.8.0"
+  }
+}
