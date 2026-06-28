@@ -6,7 +6,7 @@ function getApiBase() {
     return import.meta.env.VITE_API_URL;
   }
   if (window.location.port === "3000") return "";
-  return "http://localhost:3000";
+  return "https://umubareapp.onrender.com";
 }
 
 const API_BASE = getApiBase();

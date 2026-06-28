@@ -5,7 +5,7 @@ export default defineConfig({
   root: ".",
   publicDir: "public",
   build: {
-    outDir: "dist",
+    outDir: "www",
     emptyOutDir: true,
     assetsDir: "assets",
     rollupOptions: {
@@ -16,7 +16,7 @@ export default defineConfig({
     port: 5173,
     proxy: {
       "/api": {
-        target: "http://localhost:3000",
+        target: "https://umubareapp.onrender.com",
         changeOrigin: true,
       },
     },

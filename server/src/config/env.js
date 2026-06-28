@@ -24,7 +24,7 @@ const config = {
     refreshSecret: process.env.REFRESH_SECRET,
     refreshExpiresIn: process.env.REFRESH_EXPIRES_IN || "7d",
   },
-  clientOrigin: process.env.CLIENT_ORIGIN || "http://localhost:3000",
+  clientOrigin: process.env.CLIENT_ORIGIN || "https://umubareapp.onrender.com",
   rateLimit: {
   windowMs: Number(process.env.RATE_LIMIT_WINDOW_MS || 15 * 60 * 1000),
   apiMax: Number(process.env.RATE_LIMIT_MAX || 100),
