@@ -26,10 +26,13 @@ const config = {
   },
   clientOrigin: process.env.CLIENT_ORIGIN || "http://localhost:3000",
   rateLimit: {
-    windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS || "900000", 10),
-    max: parseInt(process.env.RATE_LIMIT_MAX || "100", 10),
-    authMax: parseInt(process.env.AUTH_RATE_LIMIT_MAX || "10", 10),
-  },
+  windowMs: Number(process.env.RATE_LIMIT_WINDOW_MS || 15 * 60 * 1000),
+  apiMax: Number(process.env.RATE_LIMIT_MAX || 100),
+  authMax: Number(process.env.AUTH_RATE_LIMIT_MAX || 5),
+  skipApiSuccess: true,
+  skipAuthSuccess: false,
+}
 };
 
 export default config;
+console.log(process.env.RATE_LIMIT_SKIP_SUCCESS);

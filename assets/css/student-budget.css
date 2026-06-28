@@ -199,7 +199,7 @@ body[data-theme="dark"] .appHeader { background: rgba(15,23,42,0.88); }
   max-width: 1440px; margin: 0 auto;
 }
 
-.headerLeft { display: flex; align-items: center; gap: var(--space-3); }
+.headerLeft { display: flex; align-items: center; gap: var(--space-3); flex: 1; min-width: 0; }
 
 .hamburger {
   display: flex; align-items: center; justify-content: center;
@@ -225,7 +225,8 @@ body[data-theme="dark"] .hamburger:hover { background: var(--c-gray-100); }
 
 .logoText { white-space: nowrap; }
 
-.headerNav { display: none; }
+.headerNav { display: flex; align-items: center; gap: var(--space-1); }
+.headerNav .navTab:not(.navTabLogout) { display: none; }
 .headerRight { display: none; }
 .headerBudget {
   font-size: var(--text-sm); font-weight: 600;
@@ -301,6 +302,18 @@ body[data-theme="dark"] .sidebarStats { background: var(--c-gray-100); border-co
   font-size: var(--text-xs); color: var(--c-text-muted);
 }
 .sidebarFooter p { margin-bottom: var(--space-1); }
+
+.navTabLogout {
+  color: var(--c-error-600) !important;
+}
+.navTabLogout:hover {
+  background: var(--c-error-50) !important;
+  color: var(--c-error-700) !important;
+}
+body[data-theme="dark"] .navTabLogout:hover {
+  background: var(--c-error-50) !important;
+  color: var(--c-error-700) !important;
+}
 
 /* ═══ App Layout ══════════════════════════════════════════ */
 .appLayout {
@@ -843,6 +856,7 @@ body[data-theme="dark"] .authTab.active { background: var(--c-gray-100); }
   .headerNav {
     display: flex; align-items: center; gap: var(--space-1);
   }
+  .headerNav .navTab:not(.navTabLogout) { display: flex; }
   .headerRight { display: flex; align-items: center; }
 
   .navTab {

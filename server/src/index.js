@@ -33,6 +33,8 @@ const capacitorOrigins = [
   "ionic://localhost",
   "https://localhost",
   "http://localhost",
+  "https://umubareapp.onrender.com",
+  "http://umubareapp.onrender.com",
 ];
 
 app.use(cors({

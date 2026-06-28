@@ -19,4 +19,10 @@ export function authenticate(req, _res, next) {
     }
     return next(new UnauthorizedError("Invalid token"));
   }
+  app.use((req, res, next) => {
+  res.on("finish", () => {
+    console.log(req.method, req.url, res.statusCode);
+  });
+  next();
+});
 }

@@ -712,6 +712,9 @@ uploadJsonButton?.addEventListener("click", importJson);
 downloadCsvButton?.addEventListener("click", exportCsv);
 clearDataButton?.addEventListener("click", clearAllData);
 
+const navLogoutButton = document.querySelector("#navLogoutButton");
+navLogoutButton?.addEventListener("click", () => authLogout());
+
 if (hamburgerButton && sidebar && mobileNavOverlay) {
   hamburgerButton.addEventListener("click", () => {
     const isOpen = sidebar.classList.toggle("open");
