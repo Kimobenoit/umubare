@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <meta name="description" content="Student Budget Tracker - A comprehensive financial management application for students">
+    <meta name="theme-color" content="#3b82f6">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Budget Tracker">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title>Student Budget Tracker</title>
+    <script>
+      document.documentElement.dataset.theme = "light";
+      document.body.dataset.theme = "light";
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <script type="module" crossorigin src="/assets/index-CqX2Awf_.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-D5f10k1b.css">
+  </head>
+  <body class="fadeIn">
+    <div id="authContainer"></div>
+    <a href="#main-content" class="skipLink">Skip to main content</a>
+
+    <!-- ─── Header ──────────────────────────────────────── -->
+    <header class="appHeader" role="banner">
+      <div class="headerInner">
+        <div class="headerLeft">
+          <button class="hamburger" id="hamburgerButton" aria-label="Toggle navigation" aria-expanded="false">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <a href="#" class="logo" aria-label="Student Budget Tracker home">
+            <div class="logoMark">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/></svg>
+            </div>
+            <span class="logoText">Budget Tracker</span>
+          </a>
+        </div>
+        <nav class="headerNav" aria-label="Main navigation">
+          <button class="navTab active" data-view="home" role="tab" aria-selected="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+            <span>Home</span>
+          </button>
+          <button class="navTab" data-view="summary" role="tab" aria-selected="false">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <span>Summary</span>
+          </button>
+          <button class="navTab" data-view="addExpense" role="tab" aria-selected="false">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>Add</span>
+          </button>
+          <button class="navTab" data-view="transactions" role="tab" aria-selected="false">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="15" y2="21"/></svg>
+            <span>Transactions</span>
+          </button>
+          <button class="navTab" data-view="debt" role="tab" aria-selected="false">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a2 2 0 0 0-2 2v7.5l-3-.75a2 2 0 1 0 0 4l3-.75V20a2 2 0 0 0 2 2 2 0 0 0 2-2v-5.5l3 .75a2 2 0 1 0 0-4l-3-.75V4a2 2 0 0 0-2-2z"/></svg>
+            <span>Debt</span>
+          </button>
+          <button class="navTab" data-view="schedule" role="tab" aria-selected="false">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span>Schedule</span>
+          </button>
+          <button class="navTab" data-view="settings" role="tab" aria-selected="false">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span>Settings</span>
+          </button>
+        </nav>
+        <div class="headerRight">
+          <span class="headerBudget" id="headerBudgetDisplay" aria-live="polite"></span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ─── Mobile Nav Overlay ──────────────────────────── -->
+    <div class="mobileNavOverlay" id="mobileNavOverlay" hidden></div>
+
+    <!-- ─── Layout Shell ────────────────────────────────── -->
+    <div class="appLayout">
+      <!-- Sidebar (desktop only) -->
+      <aside class="sidebar" id="appSidebar" aria-label="Secondary navigation">
+        <nav class="sidebarNav">
+          <button class="sidebarBtn active" data-view="home" aria-current="page">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+            <span>Dashboard</span>
+          </button>
+          <button class="sidebarBtn" data-view="summary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <span>Financial Summary</span>
+          </button>
+          <button class="sidebarBtn" data-view="addExpense">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>Add Expense</span>
+          </button>
+          <button class="sidebarBtn" data-view="transactions">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="15" y2="21"/></svg>
+            <span>Transactions</span>
+          </button>
+          <button class="sidebarBtn" data-view="debt">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a2 2 0 0 0-2 2v7.5l-3-.75a2 2 0 1 0 0 4l3-.75V20a2 2 0 0 0 2 2 2 0 0 0 2-2v-5.5l3 .75a2 2 0 1 0 0-4l-3-.75V4a2 2 0 0 0-2-2z"/></svg>
+            <span>Debt Management</span>
+          </button>
+          <button class="sidebarBtn" data-view="schedule">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span>Planner</span>
+          </button>
+        </nav>
+
+        <div class="sidebarStats">
+          <h3 class="sidebarStatsTitle">Quick Stats</h3>
+          <div class="sidebarStatRow">
+            <span>Expenses</span>
+            <strong id="quickTotalExpenses">RWF 0</strong>
+          </div>
+          <div class="sidebarStatRow">
+            <span>Budget Left</span>
+            <strong id="quickBudgetLeft" class="textSuccess">Set budget</strong>
+          </div>
+          <div class="sidebarStatRow">
+            <span>Records</span>
+            <strong id="quickRecordCount">0</strong>
+          </div>
+        </div>
+
+        <div class="sidebarFooter">
+          <p>&copy; 2026 Student Budget Tracker</p>
+          <p>v3.0</p>
+        </div>
+      </aside>
+
+      <!-- ─── Main Content ──────────────────────────────── -->
+      <main class="mainContent" id="main-content" role="main">
+
+        <!-- ═══ HOME ═══════════════════════════════════════ -->
+        <section class="pageSection homeSection is-active" id="home" aria-labelledby="homeTitle">
+          <div class="pageHeader">
+            <div>
+              <h1 id="homeTitle" class="pageTitle">Dashboard</h1>
+              <p class="pageSubtitle">Track expenses and understand your student budget.</p>
+            </div>
+            <div class="pageActions">
+              <button class="btn btnPrimary" onclick="setActiveView('addExpense')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Add Expense
+              </button>
+              <button class="btn btnOutline" onclick="setActiveView('summary')">View Summary</button>
+            </div>
+          </div>
+
+          <div class="statGrid">
+            <div class="statCard statCard--primary">
+              <div class="statIcon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+              <div class="statInfo">
+                <span class="statLabel">Total Expenses</span>
+                <span class="statValue" id="homeTotalExpenses">RWF 0</span>
+              </div>
+            </div>
+            <div class="statCard statCard--success">
+              <div class="statIcon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+              <div class="statInfo">
+                <span class="statLabel">Budget Left</span>
+                <span class="statValue" id="homeBudgetLeft">Set budget</span>
+              </div>
+            </div>
+            <div class="statCard statCard--warning">
+              <div class="statIcon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg></div>
+              <div class="statInfo">
+                <span class="statLabel">Transactions</span>
+                <span class="statValue" id="homeRecordCount">0</span>
+              </div>
+            </div>
+            <div class="statCard statCard--danger">
+              <div class="statIcon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+              <div class="statInfo">
+                <span class="statLabel">Over Budget</span>
+                <span class="statValue" id="homeOverBudget">RWF 0</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2 class="sectionHeading">Quick Actions</h2>
+            <div class="actionGrid">
+              <button class="actionCard" onclick="setActiveView('addExpense')">
+                <div class="actionIcon actionIcon--primary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div>
+                  <h3 class="actionTitle">Add Expense</h3>
+                  <p class="actionDesc">Record a new expense quickly</p>
+                </div>
+              </button>
+              <button class="actionCard" onclick="setActiveView('transactions')">
+                <div class="actionIcon actionIcon--success"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg></div>
+                <div>
+                  <h3 class="actionTitle">View Transactions</h3>
+                  <p class="actionDesc">Search and filter your records</p>
+                </div>
+              </button>
+              <button class="actionCard" onclick="setActiveView('settings')">
+                <div class="actionIcon actionIcon--warning"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+                <div>
+                  <h3 class="actionTitle">Settings</h3>
+                  <p class="actionDesc">Configure app preferences</p>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2 class="sectionHeading">Key Features</h2>
+            <div class="featureGrid">
+              <div class="featureCard">
+                <div class="featureIcon featureIcon--success"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+                <h4>Advanced Filtering</h4>
+                <p>Powerful search with regex patterns, case-insensitive matching, and multiple sorting options.</p>
+              </div>
+              <div class="featureCard">
+                <div class="featureIcon featureIcon--warning"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+                <h4>Smart Budget Insights</h4>
+                <p>Real-time budget tracking with automatic alerts, currency conversion, and spending analytics.</p>
+              </div>
+              <div class="featureCard">
+                <div class="featureIcon featureIcon--danger"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                <h4>Secure Backup</h4>
+                <p>JSON/CSV export, automatic versioning, and localStorage security for peace of mind.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2 class="sectionHeading textCenter">Comprehensive Financial Management</h2>
+            <div class="metricGrid">
+              <div class="metricItem">
+                <span class="metricValue textPrimary" id="featureCount">0</span>
+                <span class="metricLabel">Categories</span>
+              </div>
+              <div class="metricItem">
+                <span class="metricValue textSuccess" id="featureImport">0</span>
+                <span class="metricLabel">Import Records</span>
+              </div>
+              <div class="metricItem">
+                <span class="metricValue textWarning" id="featureCurrency">3</span>
+                <span class="metricLabel">Currencies</span>
+              </div>
+              <div class="metricItem">
+                <span class="metricValue textDanger" id="featureDarkMode">&#10003;</span>
+                <span class="metricLabel">Themes</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══ SUMMARY ═══════════════════════════════════ -->
+        <section class="pageSection" id="summary" aria-labelledby="summaryTitle" hidden>
+          <div class="pageHeader">
+            <div>
+              <p class="pageTag">Results</p>
+              <h1 id="summaryTitle" class="pageTitle">Financial Summary</h1>
+            </div>
+          </div>
+
+          <div class="statGrid">
+            <article class="statCard statCard--primary">
+              <div class="statInfo">
+                <span class="statLabel">Total Expenses</span>
+                <span class="statValue" id="totalExpenses">RWF 0</span>
+              </div>
+            </article>
+            <article class="statCard statCard--neutral">
+              <div class="statInfo">
+                <span class="statLabel">Expense Records</span>
+                <span class="statValue" id="totalTransactions">0</span>
+              </div>
+            </article>
+            <article class="statCard statCard--warning">
+              <div class="statInfo">
+                <span class="statLabel">Main Category</span>
+                <span class="statValue" id="mainCategory">None</span>
+              </div>
+            </article>
+            <article class="statCard statCard--success">
+              <div class="statInfo">
+                <span class="statLabel">Remaining Balance</span>
+                <span class="statValue" id="remainingBalance">Set budget</span>
+              </div>
+            </article>
+          </div>
+
+          <div class="card chartBox" id="chartBox" aria-labelledby="weeklyTitle">
+            <h2 id="weeklyTitle" class="sectionHeading">Weekly Expense Chart</h2>
+            <p id="weeklySummary" class="sectionDesc">The chart will update when expenses are added.</p>
+            <div class="weeklyChart" id="weeklyChart" aria-hidden="true"></div>
+          </div>
+
+          <div class="messageBar" id="budgetMessage" role="status" aria-live="polite">
+            Budget messages will appear here after a monthly budget is entered.
+          </div>
+        </section>
+
+        <!-- ═══ ADD EXPENSE ════════════════════════════════ -->
+        <section class="pageSection" id="addExpense" aria-labelledby="addExpenseTitle" hidden>
+          <div class="pageHeader">
+            <div>
+              <p class="pageTag">Form</p>
+              <h1 id="addExpenseTitle" class="pageTitle">Add Expense</h1>
+            </div>
+          </div>
+
+          <form class="expenseForm card" novalidate>
+            <div class="formField">
+              <label for="expenseDescription" class="formLabel">Expense Description</label>
+              <input id="expenseDescription" name="description" type="text" maxlength="100" autocomplete="off" aria-describedby="descriptionHelp descriptionError" aria-invalid="false" placeholder="e.g. Lunch at cafeteria" required class="formInput">
+              <p class="formError" id="descriptionError" aria-live="polite"></p>
+            </div>
+
+            <div class="formRow">
+              <div class="formField">
+                <label for="expenseAmount" class="formLabel">Amount</label>
+                <input id="expenseAmount" name="amount" type="text" inputmode="decimal" aria-describedby="amountHelp amountError" aria-invalid="false" required class="formInput" placeholder="0.00">
+                <p class="formHelp" id="amountHelp">Whole number or up to 2 decimal places.</p>
+                <p class="formError" id="amountError" aria-live="polite"></p>
+              </div>
+              <div class="formField">
+                <label for="expenseCurrency" class="formLabel">Currency</label>
+                <select id="expenseCurrency" name="currency" class="formSelect">
+                  <option value="RWF">RWF</option>
+                  <option value="USD">USD</option>
+                  <option value="EUR">EUR</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="formRow">
+              <div class="formField">
+                <label for="expenseCategory" class="formLabel">Category</label>
+                <select id="expenseCategory" name="category" aria-describedby="categoryError" aria-invalid="false" required class="formSelect">
+                  <option value="">Choose category</option>
+                  <option value="Food">Food</option>
+                  <option value="Books">Books</option>
+                  <option value="Transport">Transport</option>
+                  <option value="Entertainment">Entertainment</option>
+                  <option value="Fees">Fees</option>
+                  <option value="Other">Other</option>
+                </select>
+                <p class="formError" id="categoryError" aria-live="polite"></p>
+              </div>
+              <div class="formField">
+                <label for="expenseDate" class="formLabel">Date</label>
+                <input id="expenseDate" name="date" type="date" aria-describedby="dateError" aria-invalid="false" required class="formInput">
+                <p class="formError" id="dateError" aria-live="polite"></p>
+              </div>
+            </div>
+
+            <div class="messageBar" id="formMessage" role="status" aria-live="polite"></div>
+
+            <div class="formActions">
+              <button class="btn btnPrimary" id="addExpenseButton" type="submit">Add Expense</button>
+              <button class="btn btnOutline" type="reset">Clear Form</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- ═══ TRANSACTIONS ═══════════════════════════════ -->
+        <section class="pageSection" id="transactions" aria-labelledby="transactionsTitle" hidden>
+          <div class="pageHeader">
+            <div>
+              <p class="pageTag">Records</p>
+              <h1 id="transactionsTitle" class="pageTitle">Expense Table</h1>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="tableToolbar">
+              <div class="searchField">
+                <label for="expenseSearch" class="formLabel">Search</label>
+                <input id="expenseSearch" name="expenseSearch" type="search" maxlength="100" placeholder="coffee|tea" aria-describedby="searchHelp searchError" class="formInput">
+                <p class="formHelp" id="searchHelp">Search by words or regex patterns.</p>
+                <p class="formError" id="searchError" aria-live="polite"></p>
+              </div>
+              <div class="toolbarGroup">
+                <label class="checkLabel" for="ignoreCase">
+                  <input id="ignoreCase" name="ignoreCase" type="checkbox" checked>
+                  Ignore case
+                </label>
+                <div class="sortField">
+                  <label for="sortExpenses" class="formLabel">Sort</label>
+                  <select id="sortExpenses" name="sortExpenses" class="formSelect">
+                    <option value="date-desc">Newest first</option>
+                    <option value="date-asc">Oldest first</option>
+                    <option value="description-asc">Description A-Z</option>
+                    <option value="description-desc">Description Z-A</option>
+                    <option value="amount-asc">Amount low-high</option>
+                    <option value="amount-desc">Amount high-low</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="tableWrap">
+              <table id="expenseTable">
+                <caption class="srOnly">Saved student expenses. Use the controls above to search and sort.</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col"><span class="srOnly">Actions</span></th>
+                  </tr>
+                </thead>
+                <tbody id="expenseTableBody">
+                  <tr><td colspan="5" class="emptyCell">No expenses added yet.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══ DEBT ═══════════════════════════════════════ -->
+        <section class="pageSection" id="debt" aria-labelledby="debtTitle" hidden>
+          <div class="pageHeader">
+            <div>
+              <p class="pageTag">Debt</p>
+              <h1 id="debtTitle" class="pageTitle">Debt Management</h1>
+            </div>
+          </div>
+
+          <div class="statGrid statGrid--5">
+            <article class="statCard">
+              <div class="statInfo"><span class="statLabel">Receivables</span><span class="statValue" id="debtReceivableTotal">RWF 0</span></div>
+            </article>
+            <article class="statCard">
+              <div class="statInfo"><span class="statLabel">Payables</span><span class="statValue" id="debtPayableTotal">RWF 0</span></div>
+            </article>
+            <article class="statCard">
+              <div class="statInfo"><span class="statLabel">Overdue</span><span class="statValue textDanger" id="debtOverdueTotal">0</span></div>
+            </article>
+            <article class="statCard">
+              <div class="statInfo"><span class="statLabel">Upcoming</span><span class="statValue" id="debtUpcomingTotal">0</span></div>
+            </article>
+            <article class="statCard">
+              <div class="statInfo"><span class="statLabel">Reliability</span><span class="statValue" id="debtScoreValue">0%</span></div>
+            </article>
+          </div>
+
+          <div class="dualGrid">
+            <section class="card">
+              <h2 class="sectionHeading">Money Owed to You</h2>
+              <form id="debtReceivableForm" class="debtForm">
+                <div class="formField">
+                  <label for="debtReceivablePerson" class="formLabel">Person</label>
+                  <input id="debtReceivablePerson" name="person" type="text" maxlength="100" required class="formInput">
+                </div>
+                <div class="formRow">
+                  <div class="formField">
+                    <label for="debtReceivableAmount" class="formLabel">Amount</label>
+                    <input id="debtReceivableAmount" name="amount" type="number" min="0" step="0.01" required class="formInput">
+                  </div>
+                  <div class="formField">
+                    <label for="debtReceivableDueDate" class="formLabel">Due Date</label>
+                    <input id="debtReceivableDueDate" name="dueDate" type="date" required class="formInput">
+                  </div>
+                </div>
+                <div class="formRow">
+                  <div class="formField">
+                    <label for="debtReceivableStatus" class="formLabel">Status</label>
+                    <select id="debtReceivableStatus" name="status" class="formSelect">
+                      <option value="Pending">Pending</option>
+                      <option value="Partially Paid">Partially Paid</option>
+                      <option value="Paid">Paid</option>
+                      <option value="Overdue">Overdue</option>
+                    </select>
+                  </div>
+                  <div class="formField">
+                    <label for="debtReceivableNotes" class="formLabel">Notes</label>
+                    <input id="debtReceivableNotes" name="notes" type="text" maxlength="200" placeholder="Optional" class="formInput">
+                  </div>
+                </div>
+                <button class="btn btnPrimary" type="submit">Add Receivable</button>
+              </form>
+              <div class="tableWrap">
+                <table>
+                  <thead><tr><th>Person</th><th>Amount</th><th>Due</th><th>Status</th><th><span class="srOnly">Actions</span></th></tr></thead>
+                  <tbody id="receivableTableBody"><tr><td colspan="5" class="emptyCell">No receivables recorded yet.</td></tr></tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="card">
+              <h2 class="sectionHeading">Money You Owe</h2>
+              <form id="debtPayableForm" class="debtForm">
+                <div class="formField">
+                  <label for="debtPayablePerson" class="formLabel">Person</label>
+                  <input id="debtPayablePerson" name="person" type="text" maxlength="100" required class="formInput">
+                </div>
+                <div class="formRow">
+                  <div class="formField">
+                    <label for="debtPayableAmount" class="formLabel">Amount</label>
+                    <input id="debtPayableAmount" name="amount" type="number" min="0" step="0.01" required class="formInput">
+                  </div>
+                  <div class="formField">
+                    <label for="debtPayableDueDate" class="formLabel">Due Date</label>
+                    <input id="debtPayableDueDate" name="dueDate" type="date" required class="formInput">
+                  </div>
+                </div>
+                <div class="formRow">
+                  <div class="formField">
+                    <label for="debtPayableStatus" class="formLabel">Status</label>
+                    <select id="debtPayableStatus" name="status" class="formSelect">
+                      <option value="Pending">Pending</option>
+                      <option value="Partially Paid">Partially Paid</option>
+                      <option value="Paid">Paid</option>
+                      <option value="Overdue">Overdue</option>
+                    </select>
+                  </div>
+                  <div class="formField">
+                    <label for="debtPayableNotes" class="formLabel">Notes</label>
+                    <input id="debtPayableNotes" name="notes" type="text" maxlength="200" placeholder="Optional" class="formInput">
+                  </div>
+                </div>
+                <button class="btn btnPrimary" type="submit">Add Payable</button>
+              </form>
+              <div class="tableWrap">
+                <table>
+                  <thead><tr><th>Person</th><th>Amount</th><th>Due</th><th>Status</th><th><span class="srOnly">Actions</span></th></tr></thead>
+                  <tbody id="payableTableBody"><tr><td colspan="5" class="emptyCell">No payables recorded yet.</td></tr></tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+
+          <div class="card">
+            <h2 class="sectionHeading">Reliability Score</h2>
+            <div class="reliabilityBar"><span id="debtScoreBar"></span></div>
+            <p id="debtReliabilityText" class="reliabilityText">Score will appear here.</p>
+          </div>
+
+          <div class="card">
+            <h2 class="sectionHeading">Debt History</h2>
+            <div class="tableWrap">
+              <table>
+                <thead><tr><th>Date</th><th>Type</th><th>Person</th><th>Action</th><th>Status</th></tr></thead>
+                <tbody id="debtHistoryBody"><tr><td colspan="5" class="emptyCell">No debt history yet.</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="messageBar" id="debtMessage" role="status" aria-live="polite"></div>
+        </section>
+
+        <!-- ═══ SCHEDULE ═══════════════════════════════════ -->
+        <section class="pageSection" id="schedule" aria-labelledby="scheduleTitle" hidden>
+          <div class="pageHeader">
+            <div>
+              <p class="pageTag">Planner</p>
+              <h1 id="scheduleTitle" class="pageTitle">My Schedule</h1>
+            </div>
+          </div>
+
+          <div class="statGrid">
+            <article class="statCard"><div class="statInfo"><span class="statLabel">Open Items</span><span class="statValue" id="scheduleTotalDue">0</span></div></article>
+            <article class="statCard"><div class="statInfo"><span class="statLabel">Overdue</span><span class="statValue textDanger" id="scheduleOverdueCount">0</span></div></article>
+            <article class="statCard"><div class="statInfo"><span class="statLabel">Due This Week</span><span class="statValue" id="scheduleWeekCount">0</span></div></article>
+            <article class="statCard"><div class="statInfo"><span class="statLabel">Financial</span><span class="statValue" id="scheduleFinanceTotal">RWF 0</span></div></article>
+          </div>
+
+          <div class="dualGrid">
+            <section class="card">
+              <h2 class="sectionHeading">Add Schedule Item</h2>
+              <form id="scheduleForm" class="scheduleForm">
+                <div class="formField">
+                  <label for="scheduleTitleInput" class="formLabel">Title</label>
+                  <input id="scheduleTitleInput" name="title" type="text" maxlength="100" placeholder="Assignment, bill, meeting" required class="formInput">
+                </div>
+                <div class="formRow">
+                  <div class="formField">
+                    <label for="scheduleType" class="formLabel">Type</label>
+                    <select id="scheduleType" name="type" class="formSelect">
+                      <option value="work">Work &amp; Task</option>
+                      <option value="payment">Payment Reminder</option>
+                      <option value="date">Important Date</option>
+                    </select>
+                  </div>
+                  <div class="formField">
+                    <label for="schedulePriority" class="formLabel">Priority</label>
+                    <select id="schedulePriority" name="priority" class="formSelect">
+                      <option value="High">High</option>
+                      <option value="Medium" selected>Medium</option>
+                      <option value="Low">Low</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="formRow">
+                  <div class="formField">
+                    <label for="scheduleDueDate" class="formLabel">Due Date</label>
+                    <input id="scheduleDueDate" name="dueDate" type="date" required class="formInput">
+                  </div>
+                  <div class="formField">
+                    <label for="scheduleReminderDate" class="formLabel">Reminder</label>
+                    <input id="scheduleReminderDate" name="reminderDate" type="date" class="formInput">
+                  </div>
+                </div>
+                <div class="formRow">
+                  <div class="formField">
+                    <label for="scheduleStatus" class="formLabel">Progress</label>
+                    <select id="scheduleStatus" name="status" class="formSelect">
+                      <option value="Pending">Pending</option>
+                      <option value="In Progress">In Progress</option>
+                      <option value="Completed">Completed</option>
+                      <option value="Overdue">Overdue</option>
+                    </select>
+                  </div>
+                  <div class="formField">
+                    <label for="scheduleAmount" class="formLabel">Amount</label>
+                    <input id="scheduleAmount" name="amount" type="number" min="0" step="0.01" placeholder="0" class="formInput">
+                  </div>
+                </div>
+                <div class="formField">
+                  <label for="scheduleNotes" class="formLabel">Notes</label>
+                  <input id="scheduleNotes" name="notes" type="text" maxlength="200" placeholder="Optional context" class="formInput">
+                </div>
+                <button class="btn btnPrimary" type="submit">Add Schedule Item</button>
+              </form>
+            </section>
+
+            <section class="card">
+              <h2 class="sectionHeading">Notifications &amp; Alerts</h2>
+              <ul class="alertList" id="scheduleAlerts"><li class="emptyCell">No urgent reminders right now.</li></ul>
+            </section>
+          </div>
+
+          <div class="card">
+            <div class="calendarToolbar">
+              <h2 class="sectionHeading">Calendar View</h2>
+              <div class="toolbarGroup">
+                <div class="formField">
+                  <label for="scheduleViewMode" class="formLabel">View</label>
+                  <select id="scheduleViewMode" name="scheduleViewMode" class="formSelect">
+                    <option value="daily">Daily</option>
+                    <option value="weekly" selected>Weekly</option>
+                    <option value="monthly">Monthly</option>
+                  </select>
+                </div>
+                <div class="formField">
+                  <label for="scheduleFocusDate" class="formLabel">Focus Date</label>
+                  <input id="scheduleFocusDate" name="scheduleFocusDate" type="date" class="formInput">
+                </div>
+              </div>
+            </div>
+            <ul class="calendarList" id="scheduleCalendarList"><li class="emptyCell">No activities in this view.</li></ul>
+          </div>
+
+          <div class="card">
+            <div class="tableWrap">
+              <table>
+                <caption class="srOnly">Upcoming activities, dates, payment reminders, and debt payables.</caption>
+                <thead><tr><th>Item</th><th>Type</th><th>Due</th><th>Priority</th><th>Status</th><th>Amount</th><th><span class="srOnly">Actions</span></th></tr></thead>
+                <tbody id="scheduleTableBody"><tr><td colspan="7" class="emptyCell">No schedule items yet.</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="messageBar" id="scheduleMessage" role="status" aria-live="polite"></div>
+        </section>
+
+        <!-- ═══ SETTINGS ═══════════════════════════════════ -->
+        <section class="pageSection" id="settings" aria-labelledby="settingsTitle" hidden>
+          <div class="pageHeader">
+            <div>
+              <p class="pageTag">Settings</p>
+              <h1 id="settingsTitle" class="pageTitle">App Settings</h1>
+            </div>
+          </div>
+
+          <form class="settingsForm">
+            <fieldset class="settingsGroup card">
+              <legend>Budget Settings</legend>
+              <div class="formRow">
+                <div class="formField">
+                  <label for="monthlyBudget" class="formLabel">Monthly Budget</label>
+                  <input id="monthlyBudget" name="monthlyBudget" type="text" inputmode="decimal" placeholder="e.g. 100000" aria-describedby="monthlyBudgetHelp monthlyBudgetError" aria-invalid="false" class="formInput">
+                  <p class="formHelp" id="monthlyBudgetHelp">Compared with total expenses.</p>
+                  <p class="formError" id="monthlyBudgetError" aria-live="polite"></p>
+                </div>
+                <div class="formField">
+                  <label for="defaultCurrency" class="formLabel">Default Currency</label>
+                  <select id="defaultCurrency" name="defaultCurrency" class="formSelect">
+                    <option value="RWF">RWF</option>
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                  </select>
+                </div>
+              </div>
+              <div class="formRow">
+                <div class="formField">
+                  <label for="usdRate" class="formLabel">USD to RWF Rate</label>
+                  <input id="usdRate" name="usdRate" type="text" inputmode="decimal" value="1300" aria-describedby="usdRateHelp usdRateError" aria-invalid="false" class="formInput">
+                  <p class="formHelp" id="usdRateHelp">Used for USD expenses.</p>
+                  <p class="formError" id="usdRateError" aria-live="polite"></p>
+                </div>
+                <div class="formField">
+                  <label for="eurRate" class="formLabel">EUR to RWF Rate</label>
+                  <input id="eurRate" name="eurRate" type="text" inputmode="decimal" value="1450" aria-describedby="eurRateHelp eurRateError" aria-invalid="false" class="formInput">
+                  <p class="formHelp" id="eurRateHelp">Used for EUR expenses.</p>
+                  <p class="formError" id="eurRateError" aria-live="polite"></p>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset class="settingsGroup card">
+              <legend>Display</legend>
+              <div class="formField">
+                <label for="displayCurrency" class="formLabel">Display Currency</label>
+                <select id="displayCurrency" name="displayCurrency" class="formSelect">
+                  <option value="RWF">RWF</option>
+                  <option value="USD">USD</option>
+                  <option value="EUR">EUR</option>
+                </select>
+              </div>
+              <label class="switchRow" for="themeToggle">
+                <span class="switchText"><strong>Dark Mode</strong><small>Change the app theme</small></span>
+                <span class="switch"><input id="themeToggle" name="themeToggle" type="checkbox"><span class="switchSlider"></span></span>
+              </label>
+              <label class="switchRow" for="showWeeklyChart">
+                <span class="switchText"><strong>Show Weekly Chart</strong><small>Display the weekly expense chart</small></span>
+                <span class="switch"><input id="showWeeklyChart" name="showWeeklyChart" type="checkbox" checked><span class="switchSlider"></span></span>
+              </label>
+              <label class="switchRow" for="compactTable">
+                <span class="switchText"><strong>Compact Table</strong><small>Smaller spacing in expense table</small></span>
+                <span class="switch"><input id="compactTable" name="compactTable" type="checkbox"><span class="switchSlider"></span></span>
+              </label>
+            </fieldset>
+
+            <fieldset class="settingsGroup card">
+              <legend>System</legend>
+              <label class="switchRow" for="confirmBeforeDelete">
+                <span class="switchText"><strong>Confirm Before Delete</strong><small>Show confirmation before removing expenses</small></span>
+                <span class="switch"><input id="confirmBeforeDelete" name="confirmBeforeDelete" type="checkbox" checked><span class="switchSlider"></span></span>
+              </label>
+            </fieldset>
+
+            <fieldset class="settingsGroup card">
+              <legend>Data Management</legend>
+              <div class="formField">
+                <label for="jsonFile" class="formLabel">Import JSON File</label>
+                <input id="jsonFile" name="jsonFile" type="file" accept="application/json,.json" class="formInput">
+              </div>
+              <div class="formActions">
+                <button class="btn btnPrimary" id="downloadJsonButton" type="button">Export JSON</button>
+                <button class="btn btnOutline" id="uploadJsonButton" type="button">Import JSON</button>
+                <button class="btn btnOutline" id="downloadCsvButton" type="button">Export CSV</button>
+                <button class="btn btnDanger" id="clearDataButton" type="button">Clear All Data</button>
+              </div>
+            </fieldset>
+
+            <div class="messageBar" id="settingsMessage" role="status" aria-live="polite">Settings messages will appear here.</div>
+          </form>
+        </section>
+
+      </main>
+    </div>
+
+    <!-- ─── Footer ──────────────────────────────────────── -->
+    <footer class="appFooter">
+      <div class="footerInner">
+        <p>&copy; 2026 Student Budget Tracker. All rights reserved.</p>
+        <p class="footerSmall">Built with vanilla HTML, CSS, and JavaScript.</p>
+      </div>
+    </footer>
+
+  </body>
+</html>
