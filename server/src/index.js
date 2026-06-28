@@ -19,6 +19,7 @@ import scheduleRoutes from "./routes/schedule.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
+const PORT = process.env.PORT || config.port || 3000;
 
 // Security
 app.use(helmet({
@@ -66,8 +67,10 @@ app.use("/api/debts", authenticate, debtsRoutes);
 app.use("/api/schedule", authenticate, scheduleRoutes);
 
 // Serve static client files
-const clientPath = join(__dirname, "../../");
+const clientPath = join(__dirname, "../../dist");
+
 app.use(express.static(clientPath));
+
 app.get("*", (req, res, next) => {
   if (req.path.startsWith("/api")) return next();
   res.sendFile(join(clientPath, "index.html"));
@@ -91,8 +94,8 @@ async function start() {
   }
   console.log("Database connected:", dbStatus.time);
 
-  app.listen(config.port, () => {
-    console.log(`Server running on http://localhost:${config.port} [${config.env}]`);
+  app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT} [${config.env}]`);
   });
 }
 
