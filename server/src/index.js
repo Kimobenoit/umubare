@@ -33,6 +33,9 @@ const capacitorOrigins = [
   "ionic://localhost",
   "https://localhost",
   "http://localhost",
+  "http://localhost:3000",
+  "http://localhost:5173",
+  "http://localhost:8080",
   "https://umubareapp.onrender.com",
   "http://umubareapp.onrender.com",
 ];

@@ -112,10 +112,15 @@ router.post("/refresh", validate(refreshSchema), async (req, res, next) => {
       return res.status(401).json({ error: true, message: "Refresh token revoked" });
     }
 
-    // Issue new access token
-    const token = jwt.sign({ sub: payload.sub }, config.jwt.secret, { expiresIn: config.jwt.expiresIn });
+    // Rotate: delete old refresh token, issue new pair
+    await authQueries.deleteRefreshToken(tokenHash);
 
-    res.json({ token });
+    const newAccessToken = jwt.sign({ sub: payload.sub }, config.jwt.secret, { expiresIn: config.jwt.expiresIn });
+    const newRefreshToken = jwt.sign({ sub: payload.sub, type: "refresh" }, config.jwt.refreshSecret, { expiresIn: config.jwt.refreshExpiresIn });
+    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+    await authQueries.createRefreshToken(payload.sub, hashToken(newRefreshToken), expiresAt);
+
+    res.json({ token: newAccessToken, refreshToken: newRefreshToken });
   } catch (err) {
     next(err);
   }
@@ -127,6 +132,33 @@ router.post("/logout", validate(refreshSchema), async (req, res, next) => {
     const { refreshToken } = req.body;
     await authQueries.deleteRefreshToken(hashToken(refreshToken));
     res.json({ message: "Logged out successfully" });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// GET /api/auth/me — validate token and return current user
+router.get("/me", async (req, res, next) => {
+  try {
+    const header = req.headers.authorization;
+    if (!header || !header.startsWith("Bearer ")) {
+      return res.status(401).json({ error: true, message: "Not authenticated" });
+    }
+
+    const token = header.slice(7);
+    let payload;
+    try {
+      payload = jwt.verify(token, config.jwt.secret);
+    } catch {
+      return res.status(401).json({ error: true, message: "Invalid or expired token" });
+    }
+
+    const user = await authQueries.findUserById(payload.sub);
+    if (!user) {
+      return res.status(401).json({ error: true, message: "User not found" });
+    }
+
+    res.json({ user: { id: user.id, email: user.email, displayName: user.display_name } });
   } catch (err) {
     next(err);
   }

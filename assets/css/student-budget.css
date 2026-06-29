@@ -236,12 +236,11 @@ body[data-theme="dark"] .hamburger:hover { background: var(--c-gray-100); }
 /* ═══ Mobile Nav Overlay ══════════════════════════════════ */
 .mobileNavOverlay {
   position: fixed; inset: 0; background: rgb(0 0 0 / 0.4);
-  z-index: var(--z-overlay); opacity: 0;
-  transition: opacity var(--duration-normal) var(--ease);
+  z-index: var(--z-overlay); opacity: 0; visibility: hidden;
   pointer-events: none;
+  transition: opacity var(--duration-normal) var(--ease);
 }
-.mobileNavOverlay[hidden] { display: block; visibility: hidden; }
-.mobileNavOverlay.open { opacity: 1; pointer-events: auto; visibility: visible; }
+.mobileNavOverlay.open { opacity: 1; visibility: visible; }
 
 /* ═══ Sidebar ═════════════════════════════════════════════ */
 .sidebar {
@@ -297,7 +296,7 @@ body[data-theme="dark"] .sidebarStats { background: var(--c-gray-100); border-co
 .sidebarStatRow strong { font-weight: 600; }
 
 .sidebarFooter {
-  margin-top: auto; padding: var(--space-4);
+  padding: var(--space-4);
   border-top: 1px solid var(--c-border);
   font-size: var(--text-xs); color: var(--c-text-muted);
 }
@@ -313,6 +312,24 @@ body[data-theme="dark"] .sidebarStats { background: var(--c-gray-100); border-co
 body[data-theme="dark"] .navTabLogout:hover {
   background: var(--c-error-50) !important;
   color: var(--c-error-700) !important;
+}
+
+.sidebarBtnLogout {
+  color: var(--c-error-600) !important;
+}
+.sidebarBtnLogout:hover {
+  background: var(--c-error-50) !important;
+  color: var(--c-error-700) !important;
+}
+body[data-theme="dark"] .sidebarBtnLogout:hover {
+  background: var(--c-error-50) !important;
+  color: var(--c-error-700) !important;
+}
+.sidebarLogoutWrap {
+  padding: 0 var(--space-4);
+  margin-top: auto;
+  border-top: 1px solid var(--c-border);
+  padding-top: var(--space-3);
 }
 
 /* ═══ App Layout ══════════════════════════════════════════ */
@@ -920,6 +937,7 @@ body[data-theme="dark"] .authTab.active { background: var(--c-gray-100); }
   .metricValue { font-size: var(--text-xl); }
   .pageActions { flex-direction: column; }
   .pageActions .btn { width: 100%; }
+  .sidebar { width: 85vw; max-width: 280px; }
 }
 
 /* ═══ Capacitor / iOS WebView Optimizations ════════════════ */

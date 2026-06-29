@@ -1,6 +1,9 @@
 let accessToken = null;
 let refreshToken = null;
 
+const STORAGE_KEY_ACCESS = "ub_access";
+const STORAGE_KEY_REFRESH = "ub_refresh";
+
 function getApiBase() {
   if (typeof import.meta !== "undefined" && import.meta.env && import.meta.env.VITE_API_URL) {
     return import.meta.env.VITE_API_URL;
@@ -11,9 +14,26 @@ function getApiBase() {
 
 const API_BASE = getApiBase();
 
+function loadTokens() {
+  const access = localStorage.getItem(STORAGE_KEY_ACCESS);
+  const refresh = localStorage.getItem(STORAGE_KEY_REFRESH);
+  if (access && refresh) {
+    accessToken = access;
+    refreshToken = refresh;
+  }
+}
+
+function persistTokens() {
+  if (accessToken && refreshToken) {
+    localStorage.setItem(STORAGE_KEY_ACCESS, accessToken);
+    localStorage.setItem(STORAGE_KEY_REFRESH, refreshToken);
+  }
+}
+
 export function setTokens(access, refresh) {
   accessToken = access;
   refreshToken = refresh;
+  persistTokens();
 }
 
 export function getAccessToken() {
@@ -27,7 +47,13 @@ export function getRefreshToken() {
 export function clearTokens() {
   accessToken = null;
   refreshToken = null;
+  localStorage.removeItem(STORAGE_KEY_ACCESS);
+  localStorage.removeItem(STORAGE_KEY_REFRESH);
+  sessionStorage.removeItem(STORAGE_KEY_ACCESS);
+  sessionStorage.removeItem(STORAGE_KEY_REFRESH);
 }
+
+loadTokens();
 
 export function isAuthenticated() {
   return !!accessToken;
@@ -48,17 +74,22 @@ export async function api(path, options = {}) {
 
   // Handle token expiry - try refresh once
   if (res.status === 401 && refreshToken && !options._retried) {
-    const refreshRes = await fetch(`${API_BASE}/api/auth/refresh`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ refreshToken }),
-    });
+    try {
+      const refreshRes = await fetch(`${API_BASE}/api/auth/refresh`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ refreshToken }),
+      });
 
-    if (refreshRes.ok) {
-      const data = await refreshRes.json();
-      accessToken = data.token;
-      if (data.refreshToken) refreshToken = data.refreshToken;
-      return api(path, { ...options, _retried: true });
+      if (refreshRes.ok) {
+        const data = await refreshRes.json();
+        accessToken = data.token;
+        refreshToken = data.refreshToken;
+        persistTokens();
+        return api(path, { ...options, _retried: true });
+      }
+    } catch {
+      // Network error during refresh
     }
 
     // Refresh failed - clear tokens

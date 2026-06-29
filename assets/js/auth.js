@@ -38,6 +38,25 @@ export async function register(email, password, displayName) {
   return data.user;
 }
 
+/**
+ * Bootstrap auth state on app launch.
+ * Calls GET /auth/me to validate the stored token and restore user data.
+ * Returns true if session is valid, false if not.
+ */
+export async function bootstrapAuth() {
+  if (!isAuthenticated()) return false;
+
+  try {
+    const data = await api("/auth/me");
+    currentUser = data.user;
+    return true;
+  } catch {
+    clearTokens();
+    currentUser = null;
+    return false;
+  }
+}
+
 export function renderAuthView(container) {
   container.innerHTML = `
     <div class="authContainer">

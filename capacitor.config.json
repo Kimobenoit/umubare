@@ -1,7 +1,7 @@
 {
   "appId": "com.studentbudgettracker.app",
   "appName": "Budget Tracker",
-  "webDir": "www",
+  "webDir": "dist",
   "server": {
     "androidScheme": "https"
   },

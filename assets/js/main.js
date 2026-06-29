@@ -1,5 +1,5 @@
 import { api, isAuthenticated, clearTokens } from "./api.js";
-import { renderAuthView, logout as authLogout, getCurrentUser } from "./auth.js";
+import { renderAuthView, logout as authLogout, getCurrentUser, bootstrapAuth } from "./auth.js";
 import { validateTransaction } from "./formChecks.js";
 import {
   addRecordLocal,
@@ -58,6 +58,7 @@ const viewSections = document.querySelectorAll(".pageSection");
 const hamburgerButton = document.querySelector("#hamburgerButton");
 const sidebar = document.querySelector("#appSidebar");
 const mobileNavOverlay = document.querySelector("#mobileNavOverlay");
+let featuresInitialized = false;
 
 function createAuthContainer() {
   const div = document.createElement("div");
@@ -143,7 +144,7 @@ function setActiveView(viewName) {
   });
 
   if (sidebar) sidebar.classList.remove("open");
-  if (mobileNavOverlay) { mobileNavOverlay.classList.remove("open"); mobileNavOverlay.hidden = true; }
+  if (mobileNavOverlay) mobileNavOverlay.classList.remove("open");
   if (hamburgerButton) hamburgerButton.setAttribute("aria-expanded", "false");
 
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -559,14 +560,38 @@ function showAuth() {
   renderAuthView(authContainer);
 }
 
+function showLoading() {
+  if (appLayout) appLayout.style.display = "none";
+  if (authContainer) {
+    authContainer.style.display = "";
+    authContainer.innerHTML = `
+      <div class="authContainer">
+        <div class="authCard" style="text-align:center; padding: 3rem;">
+          <div class="authLogo" style="margin: 0 auto var(--space-4);">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/></svg>
+          </div>
+          <p style="color: var(--c-text-secondary); font-size: var(--text-sm);">Restoring session...</p>
+        </div>
+      </div>
+    `;
+  }
+}
+
 async function initializeApp() {
-  if (!isAuthenticated()) {
+  showLoading();
+
+  const validSession = await bootstrapAuth();
+
+  if (!validSession) {
     showAuth();
     return;
   }
 
+  await loadAppData();
   showApp();
+}
 
+async function loadAppData() {
   try {
     const [recordsRes, settingsRes, debtsRes, scheduleRes, historyRes] = await Promise.all([
       api("/records"),
@@ -606,52 +631,56 @@ async function initializeApp() {
   applySavedSettingsToForm();
   applyDisplaySettings();
 
-  let scheduleController = null;
-  const scheduleInit = document.querySelector("#schedule");
-  if (scheduleInit) {
-    scheduleController = initScheduleFeature({
-      state,
-      elements: {
-        scheduleForm: document.querySelector("#scheduleForm"),
-        scheduleTableBody: document.querySelector("#scheduleTableBody"),
-        scheduleCalendarList: document.querySelector("#scheduleCalendarList"),
-        scheduleAlerts: document.querySelector("#scheduleAlerts"),
-        scheduleMessage: document.querySelector("#scheduleMessage"),
-        scheduleViewMode: document.querySelector("#scheduleViewMode"),
-        scheduleFocusDate: document.querySelector("#scheduleFocusDate"),
-        scheduleTotalDue: document.querySelector("#scheduleTotalDue"),
-        scheduleOverdueCount: document.querySelector("#scheduleOverdueCount"),
-        scheduleWeekCount: document.querySelector("#scheduleWeekCount"),
-        scheduleFinanceTotal: document.querySelector("#scheduleFinanceTotal")
-      },
-      onPersist: () => { scheduleController?.renderAll(); },
-      apiFn: api
-    });
-  }
+  if (!featuresInitialized) {
+    featuresInitialized = true;
 
-  const debtInit = document.querySelector("#debt");
-  if (debtInit) {
-    initDebtFeature({
-      state,
-      stateDebtsKey: "debts",
-      elements: {
-        debtReceivableTotal: document.querySelector("#debtReceivableTotal"),
-        debtPayableTotal: document.querySelector("#debtPayableTotal"),
-        debtOverdueTotal: document.querySelector("#debtOverdueTotal"),
-        debtUpcomingTotal: document.querySelector("#debtUpcomingTotal"),
-        debtScoreValue: document.querySelector("#debtScoreValue"),
-        debtScoreBar: document.querySelector("#debtScoreBar"),
-        debtReliabilityText: document.querySelector("#debtReliabilityText"),
-        receivableTableBody: document.querySelector("#receivableTableBody"),
-        payableTableBody: document.querySelector("#payableTableBody"),
-        debtHistoryBody: document.querySelector("#debtHistoryBody"),
-        debtMessage: document.querySelector("#debtMessage"),
-        debtReceivableForm: document.querySelector("#debtReceivableForm"),
-        debtPayableForm: document.querySelector("#debtPayableForm"),
-      },
-      onPersist: () => { scheduleController?.renderAll(); },
-      apiFn: api
-    });
+    let scheduleController = null;
+    const scheduleInit = document.querySelector("#schedule");
+    if (scheduleInit) {
+      scheduleController = initScheduleFeature({
+        state,
+        elements: {
+          scheduleForm: document.querySelector("#scheduleForm"),
+          scheduleTableBody: document.querySelector("#scheduleTableBody"),
+          scheduleCalendarList: document.querySelector("#scheduleCalendarList"),
+          scheduleAlerts: document.querySelector("#scheduleAlerts"),
+          scheduleMessage: document.querySelector("#scheduleMessage"),
+          scheduleViewMode: document.querySelector("#scheduleViewMode"),
+          scheduleFocusDate: document.querySelector("#scheduleFocusDate"),
+          scheduleTotalDue: document.querySelector("#scheduleTotalDue"),
+          scheduleOverdueCount: document.querySelector("#scheduleOverdueCount"),
+          scheduleWeekCount: document.querySelector("#scheduleWeekCount"),
+          scheduleFinanceTotal: document.querySelector("#scheduleFinanceTotal")
+        },
+        onPersist: () => { scheduleController?.renderAll(); },
+        apiFn: api
+      });
+    }
+
+    const debtInit = document.querySelector("#debt");
+    if (debtInit) {
+      initDebtFeature({
+        state,
+        stateDebtsKey: "debts",
+        elements: {
+          debtReceivableTotal: document.querySelector("#debtReceivableTotal"),
+          debtPayableTotal: document.querySelector("#debtPayableTotal"),
+          debtOverdueTotal: document.querySelector("#debtOverdueTotal"),
+          debtUpcomingTotal: document.querySelector("#debtUpcomingTotal"),
+          debtScoreValue: document.querySelector("#debtScoreValue"),
+          debtScoreBar: document.querySelector("#debtScoreBar"),
+          debtReliabilityText: document.querySelector("#debtReliabilityText"),
+          receivableTableBody: document.querySelector("#receivableTableBody"),
+          payableTableBody: document.querySelector("#payableTableBody"),
+          debtHistoryBody: document.querySelector("#debtHistoryBody"),
+          debtMessage: document.querySelector("#debtMessage"),
+          debtReceivableForm: document.querySelector("#debtReceivableForm"),
+          debtPayableForm: document.querySelector("#debtPayableForm"),
+        },
+        onPersist: () => { scheduleController?.renderAll(); },
+        apiFn: api
+      });
+    }
   }
 
   setActiveView("home");
@@ -676,7 +705,11 @@ async function persistSettings() {
 }
 
 // ─── Event Listeners ──────────────────────────────────
-window.addEventListener("auth:login", () => initializeApp());
+window.addEventListener("auth:login", async () => {
+  showLoading();
+  await loadAppData();
+  showApp();
+});
 window.addEventListener("auth:logout", () => { showAuth(); });
 window.addEventListener("auth:expired", () => {
   replaceRecords([]);
@@ -715,17 +748,21 @@ clearDataButton?.addEventListener("click", clearAllData);
 const navLogoutButton = document.querySelector("#navLogoutButton");
 navLogoutButton?.addEventListener("click", () => authLogout());
 
+const sidebarLogoutButton = document.querySelector("#sidebarLogoutButton");
+sidebarLogoutButton?.addEventListener("click", () => authLogout());
+
 if (hamburgerButton && sidebar && mobileNavOverlay) {
-  hamburgerButton.addEventListener("click", () => {
+  hamburgerButton.addEventListener("click", (e) => {
+    e.stopPropagation();
     const isOpen = sidebar.classList.toggle("open");
-    mobileNavOverlay.hidden = !isOpen;
-    requestAnimationFrame(() => mobileNavOverlay.classList.toggle("open", isOpen));
+    mobileNavOverlay.classList.toggle("open", isOpen);
     hamburgerButton.setAttribute("aria-expanded", String(isOpen));
   });
-  mobileNavOverlay.addEventListener("click", () => {
+  document.addEventListener("click", (e) => {
+    if (!sidebar.classList.contains("open")) return;
+    if (sidebar.contains(e.target) || hamburgerButton.contains(e.target)) return;
     sidebar.classList.remove("open");
     mobileNavOverlay.classList.remove("open");
-    mobileNavOverlay.hidden = true;
     hamburgerButton.setAttribute("aria-expanded", "false");
   });
 }
